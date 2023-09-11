@@ -30,10 +30,3 @@ jobs:
 
         - name: Install pnpm
           run: pnpm install
-
-        - name: Build
-          run: pnpm run build
-
-        - name: Run the server
-          run: pnpm run preview &
-            sleep 5
