@@ -28,5 +28,5 @@ jobs:
               restore-keys: |
                 ${{ runner.os }}-pnpm-store-
 
-        - name: Install pnpm
-          run: pnpm install
+        - name: build
+          run: pnpm run build
