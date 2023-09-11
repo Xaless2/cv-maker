@@ -1,39 +1,32 @@
 name: Intro to Github Actions
 
-#When does this workflow run
+# When does this worflow run
 on:
   push:
 
+
 jobs:
-    build-pnpm:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
+  Pnpm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: latest
+      - uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: 'pnpm'
 
-        - uses: pnpm/action-setup@v2
-          with:
-            version: 7
-            run_install: false
+      - name: Install dependencies
+        run: pnpm install
 
-        - name: Get pnpm store directory
-          shell: bash
-          run: |
-                echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - name : Build
+        run: pnpm run build
 
-        - uses: actions/cache@v3
-          name: Setup pnpm cache
-          with:
-              path: ${{ env.STORE_PATH }}
-              key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-              restore-keys: |
-                ${{ runner.os }}-pnpm-store
-
-        - name: Install pnpm
-          run: pnpm install
-
-        - name: Build
-          run: pnpm run build
-
-        - name: Run the server
-          run: pnpm run preview &
-            sleep 5
+      - name: Run the serve
+        run: |
+          pnpm run preview & 
+          sleep 5
+      - name: Curl the server
+        run: curl -I http://localhost:4173
