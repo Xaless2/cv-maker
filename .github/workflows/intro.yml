@@ -61,6 +61,8 @@ jobs:
 
       - name: Git push
         run: |
+          git config --global user.email "githubaction@outlook.com"
+          git config --global user.name "Github Action"
           git add .
           git commit -m "snapshot"
           git push
