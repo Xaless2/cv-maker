@@ -45,11 +45,15 @@ jobs:
       - name: Run the server
         run: |
           pnpm run preview & 
-          sleep 10
+          sleep 5
+
+      - name: Curl the server
+        run: curl -I http://localhost:4173
 
       - name: Run docker
         run : |
-          sudo docker run -i --init --cap-add=SYS_ADMIN --network host -v ./gen:/home/pptruser/gen ghcr.io/puppeteer/puppeteer:latest node -e "$(cat snapshot.js)" http://localhost:4173 ./gen
+          mkdir 777 gen
+          docker run -i --init --cap-add=SYS_ADMIN --network host -v ./gen:/home/pptruser/gen ghcr.io/puppeteer/puppeteer:latest node -e "$(cat snapshot.js)" http://localhost:4173 ./gen
 
       - name: Move Pdf
         run: |
