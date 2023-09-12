@@ -8,6 +8,7 @@ env:
 # when does this workflow run ?
 on:
   push:
+    paths-ignore: ["**.pdf","**.mhtml"]
 
 # qu'est ce qui va etre executÃ©
 jobs:
@@ -44,7 +45,7 @@ jobs:
       - name: Run the server
         run: |
           pnpm run preview & 
-          sleep 5
+          sleep 10
 
       - name: Run docker
         run : |
