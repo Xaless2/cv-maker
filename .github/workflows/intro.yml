@@ -62,7 +62,7 @@ jobs:
 
   deploy-vercel:
     runs-on: ubuntu-latest
-    needs: build-test
+    needs: build-pdf
 
     steps:
       - uses: actions/checkout@v4
