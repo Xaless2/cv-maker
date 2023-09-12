@@ -11,12 +11,10 @@ on:
 
 # qu'est ce qui va etre executÃ©
 jobs:
-  build-test:
+  build-pdf:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - run : echo "Welcome ${{env.NAME}}"
 
       - uses: pnpm/action-setup@v2
         name: Install pnpm
@@ -48,8 +46,19 @@ jobs:
           pnpm run preview & 
           sleep 5
 
-      - name: Curl the server
-        run: curl -I http://localhost:4173
+      - name: Run docker
+        run : |
+          docker run -i --init --cap-add=SYS_ADMIN --network host -v ./gen:/home/pptruser/gen ghcr.io/puppeteer/puppeteer:latest node -e "$(cat snapshot.js)" http://127.0.0.1:4173 ./gen
+
+      - name: Move Pdf
+        run: |
+          mv ./gen/* ./static
+
+      - name: Git push
+        run: |
+          git add .
+          git commit -m "snapshot"
+          git push
 
   deploy-vercel:
     runs-on: ubuntu-latest
