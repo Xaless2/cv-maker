@@ -11,13 +11,13 @@ pipeline {
       stage('Test') { // Stage 2: Test
           steps {
               echo 'Testing the project...'
-              // Insert test steps here
+
           }
       }
       stage('Deploy') { // Stage 3: Deploy
           steps {
               echo 'Deploying the project...'
-              // Insert deployment steps here
+
           }
       }
   }
